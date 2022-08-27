@@ -28,10 +28,9 @@ def process_full_data(df, cur):
     '''
     # Replace "-" with null values
     df = df.replace("-", 0)
-    
+
     # Create date column and remove excess columns
     df['Date'] = df['Game'].str[:10]
-    df['Date'] = pd.to_datetime(df['Date'])
 
     # Create date column and remove excess columns
     df = df.drop(
@@ -44,7 +43,7 @@ def process_full_data(df, cur):
     column = df.pop('Date')
     # insert column using insert(position, column_name, first_column) function
     df.insert(1, 'Date', column)
-    
+
     # Concat old old data with new
     query = '''
         SELECT 
@@ -106,90 +105,92 @@ def process_full_data(df, cur):
             f."SV%", 
             f."PDO",
             f."Attendance"
-        FROM game_facts AS f LEFT JOIN teams AS t
+        FROM raw.game_facts AS f LEFT JOIN raw.teams AS t
         ON f."Team_ID" = t."Team_ID"
-        LEFT JOIN dates AS d
+        LEFT JOIN raw.dates AS d
         ON f."Date_ID" = d."Date_ID";
     '''
-    
-    try:
-        cur.execute(query)
-        df_old = cur.fetchall()
-        
-        df_old_columns = [
-            'Team_ID',
-            'Date_ID',  
-            'TOI',
-            'CF', 
-            'CA',
-            'CF%', 
-            'FF', 
-            'FA',
-            'FF%', 
-            'SF', 
-            'SA', 
-            'SF%', 
-            'GF', 
-            'GA',
-            'GF%', 
-            'xGF',
-            'xGA',
-            'xGF%', 
-            'SCF',
-            'SCA', 
-            'SCF%',
-            'HDCF',
-            'HDCA',
-            'HDCF%', 
-            'HDSF',
-            'HDSA', 
-            'HDSF%', 
-            'HDGF', 
-            'HDGA', 
-            'HDGF%',
-            'HDSH%',
-            'HDSV%',
-            'MDCF',
-            'MDCA', 
-            'MDCF%',
-            'MDSF', 
-            'MDSA', 
-            'MDSF%', 
-            'MDGF',
-            'MDGA',
-            'MDGF%', 
-            'MDSH%',
-            'MDSV%', 
-            'LDCF', 
-            'LDCA', 
-            'LDCF%', 
-            'LDSF',
-            'LDSA',
-            'LDSF%',
-            'LDGF', 
-            'LDGA',
-            'LDGF%',
-            'LDSH%',
-            'LDSV%',
-            'SH%',
-            'SV%', 
-            'PDO',
-            'Attendance'
-        ]
 
+    cur.execute(query)
+    df_old = cur.fetchall()
 
-        # Convert SQL query to pandas data frame
-        df_old = pd.DataFrame(df_old, columns = df_old_columns)
-        
-    except:
-        pass
+    df_old_columns = [
+        'Team',
+        'Date',  
+        'TOI',
+        'CF', 
+        'CA',
+        'CF%', 
+        'FF', 
+        'FA',
+        'FF%', 
+        'SF', 
+        'SA', 
+        'SF%', 
+        'GF', 
+        'GA',
+        'GF%', 
+        'xGF',
+        'xGA',
+        'xGF%', 
+        'SCF',
+        'SCA', 
+        'SCF%',
+        'HDCF',
+        'HDCA',
+        'HDCF%', 
+        'HDSF',
+        'HDSA', 
+        'HDSF%', 
+        'HDGF', 
+        'HDGA', 
+        'HDGF%',
+        'HDSH%',
+        'HDSV%',
+        'MDCF',
+        'MDCA', 
+        'MDCF%',
+        'MDSF', 
+        'MDSA', 
+        'MDSF%', 
+        'MDGF',
+        'MDGA',
+        'MDGF%', 
+        'MDSH%',
+        'MDSV%', 
+        'LDCF', 
+        'LDCA', 
+        'LDCF%', 
+        'LDSF',
+        'LDSA',
+        'LDSF%',
+        'LDGF', 
+        'LDGA',
+        'LDGF%',
+        'LDSH%',
+        'LDSV%',
+        'SH%',
+        'SV%', 
+        'PDO',
+        'Attendance'
+    ]
+
+    # Convert SQL query to pandas data frame
+    df_old = pd.DataFrame(df_old, columns = df_old_columns)
+    df_old['ID'] = df_old['Team'] + df_old['Date']
+    df['ID'] = df['Team'] + df['Date']
+
+    df_old = df_old.astype('object')
+    df = df.astype('object')
+
+    df = pd.concat([df, df_old], axis = 0)
+    df = df.drop_duplicates(subset = ['ID'], keep = 'first').reset_index(drop = True)
     
-    try:
-        df = pd.concat([df, df_old], axis = 0)
-        df = df.drop_duplicates(keep = 'first').reset_index(drop = True)
-    
-    except:
-        pass
+    df = df.drop(
+        'ID',
+        axis = 1,
+        errors = 'ignore'
+    )
 
     # Create ids
     df['Team_ID'] = df.groupby(['Team']).ngroup()
@@ -350,6 +351,9 @@ def insert_teams_data(teams_df, conn, cur):
     conn.commit()
     
     # Stream cleaned data in bulk to database
+    # Set path for schema
+    cur.execute(f'SET search_path TO raw')
+    
     try:
         sio = StringIO()
         
@@ -360,7 +364,7 @@ def insert_teams_data(teams_df, conn, cur):
         ))
         
         sio.seek(0)
-
+            
         cur.copy_from(
             file = sio,
             table = 'teams',
@@ -389,6 +393,9 @@ def insert_opponents_data(opponents_df, conn, cur):
     conn.commit()
     
     # Stream cleaned data in bulk to database
+    # Set path for schema
+    cur.execute(f'SET search_path TO raw')
+    
     try:
         sio = StringIO()
         
@@ -428,6 +435,9 @@ def insert_dates_data(dates_df, conn, cur):
     conn.commit()
     
     # Stream cleaned data in bulk to database
+    # Set path for schema
+    cur.execute(f'SET search_path TO raw')
+    
     try:
         sio = StringIO()
         
@@ -533,12 +543,10 @@ def etl():
     #########################################################################
     try:
         conn = ps.connect('''
-
             host=localhost
             dbname=nhlgamesdb
             user=postgres
             password=iEchu133
-
         ''')
 
         cur = conn.cursor()
@@ -622,4 +630,4 @@ def etl():
     
 if __name__ == '__main__':
     etl()
-
+    

@@ -29,7 +29,7 @@ def create_database():
     cur.execute("CREATE DATABASE nhlgamesdb WITH ENCODING 'utf8' TEMPLATE template0;")
 
     # close connection to default database
-    conn.close()
+    conn.close()  
 
     # connect to nhlgamesdb database
     conn = ps.connect('''
@@ -42,6 +42,12 @@ def create_database():
     ''')
 
     cur = conn.cursor()
+    
+    # Create schema raw
+    cur.execute("CREATE SCHEMA IF NOT EXISTS raw;")
+    # Create schema analytics
+    cur.execute("CREATE SCHEMA IF NOT EXISTS analytics;")
+    conn.commit()
 
     return cur, conn
 
@@ -95,6 +101,7 @@ def main():
             conn = conn
         )
         
+        print('Databases have been created: nhlgamesdb and nhlgamesanalyticsdb')
         print('Tables have been created: teams, opponents, date, and game_facts')
     
         cur.close()

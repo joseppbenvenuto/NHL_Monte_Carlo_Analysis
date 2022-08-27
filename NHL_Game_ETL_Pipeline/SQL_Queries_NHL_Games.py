@@ -3,20 +3,20 @@
 ###########################################################################################################################################
 
 # DROP TABLES
-teams_table_drop = "DROP TABLE IF EXISTS teams;"
-opponents_table_drop = "DROP TABLE IF EXISTS opponents;"
-dates_table_drop = "DROP TABLE IF EXISTS dates;"
-game_facts_table_drop = "DROP TABLE IF EXISTS game_facts;"
+teams_table_drop = "DROP TABLE IF EXISTS raw.teams;"
+opponents_table_drop = "DROP TABLE IF EXISTS raw.opponents;"
+dates_table_drop = "DROP TABLE IF EXISTS raw.dates;"
+game_facts_table_drop = "DROP TABLE IF EXISTS raw.game_facts;"
 
 
 ###########################################################################################################################################
 # NEW CODE BLOCK - Delete rows
 ###########################################################################################################################################
 
-teams_table_drop_rows = "DELETE FROM teams;"
-opponents_table_drop_rows = "DELETE FROM opponents;"
-dates_table_drop_rows = "DELETE FROM dates;"
-game_facts_table_drop_rows = "DELETE FROM game_facts;"
+teams_table_drop_rows = "DELETE FROM raw.teams;"
+opponents_table_drop_rows = "DELETE FROM raw.opponents;"
+dates_table_drop_rows = "DELETE FROM raw.dates;"
+game_facts_table_drop_rows = "DELETE FROM raw.game_facts;"
 
 
 ###########################################################################################################################################
@@ -26,7 +26,7 @@ game_facts_table_drop_rows = "DELETE FROM game_facts;"
 # CREATE TABLES
 # DIMENSION TABLES
 teams_table_create = ("""
-    CREATE TABLE IF NOT EXISTS teams(
+    CREATE TABLE IF NOT EXISTS raw.teams(
         "Team_ID" int NOT NULL PRIMARY KEY,
         "Team" varchar NOT NULL
     );
@@ -34,7 +34,7 @@ teams_table_create = ("""
 """)
 
 opponents_table_create = ("""
-    CREATE TABLE IF NOT EXISTS opponents(
+    CREATE TABLE IF NOT EXISTS raw.opponents(
         "Opponent_ID" int NOT NULL PRIMARY KEY,
         "Opponent" varchar NOT NULL
     );
@@ -42,7 +42,7 @@ opponents_table_create = ("""
 """)
 
 dates_table_create = ("""
-    CREATE TABLE IF NOT EXISTS dates(
+    CREATE TABLE IF NOT EXISTS raw.dates(
         "Date_ID" int NOT NULL PRIMARY KEY,
         "Date" varchar NOT NULL
     );
@@ -50,7 +50,7 @@ dates_table_create = ("""
 """)
 
 game_facts_table_create = ("""
-    CREATE TABLE IF NOT EXISTS game_facts(
+    CREATE TABLE IF NOT EXISTS raw.game_facts(
         "Game_Facts_ID" SERIAL NOT NULL PRIMARY KEY,
         "Date_ID" int NOT NULL,
         "Team_ID" int NOT NULL,
