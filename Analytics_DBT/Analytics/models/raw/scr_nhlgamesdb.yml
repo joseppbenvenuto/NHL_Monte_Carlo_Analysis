@@ -24,13 +24,13 @@ sources:
         description: All individual nhl game dates
         columns:
 
-          - name: Date_ID
+          - name: '"Date_ID"'
             description: unique id per nhl game date
             tests:
               - unique
               - not_null
 
-          - name: Date
+          - name: '"Date"'
             description: unique nhl game date
             tests:
               - unique
@@ -41,125 +41,125 @@ sources:
       - name: game_facts
         description: All individual nhl game facts
         columns:
-          - name: Game_Facts_ID
+          - name: '"Game_Facts_ID"'
             description: unique id per game fact
-          - name: Date_ID
+          - name: '"Date_ID"'
             description: unique id per nhl game date
-          - name: Team_ID
+          - name: '"Team_ID"'
             description: unique id per nhl team
-          - name: Opponent_ID
+          - name: '"Opponent_ID"'
             description: unique id per nhl opponent
-          - name: TOI	
+          - name: '"TOI"'
             description: Total amount of time played
-          - name: CF	
+          - name: '"CF"'
             description: Count of Corsi for that team
-          - name: CA	
+          - name: '"CA"'	
             description: Count of Corsi against that team
-          - name: CF%	
+          - name: '"CF%"'	
             description: Percentage of total Corsi in games that team played that are for that team. CF*100/(CF+CA)
-          - name: FF	
+          - name: '"FF"'	
             description: Count of Fenwick for that team
-          - name: FA	
+          - name: '"FA"'	
             description: Count of Fenwick against that team
-          - name: FF%	
+          - name: '"FF%"'
             description: Percentage of total Fenwick in games that team played that are for that team. FF*100/(FF+FA)
-          - name: SF	
+          - name: '"SF"'	
             description: Count of Shots for that team
-          - name: SA	
+          - name: '"SA"'	
             description: Count of Shots against that team
-          - name: SF%	
+          - name: '"SF%"'	
             description: Percentage of total Shots in games that team played that are for that team. SF*100/(SF+SA)
-          - name: GF	
+          - name: '"GF"'	
             description: Count of Goals for that team
-          - name: GA	
+          - name: '"GA"'	
             description: Count of Goals against that team
-          - name: GF%	
+          - name: '"GF%"'	
             description: Percentage of total Goals in games that team played that are for that team. GF*100/(GF+GA)
-          - name: xGF	
+          - name: '"xGF"'	
             description: Expected Goals for
-          - name: xGA	
+          - name: '"xGA"'	
             description: Expected Goals againts
-          - name: xGF%	
+          - name: '"xGF%"'	
             description: Expected Goals for percentage
-          - name: SCF	
+          - name: '"SCF"'	
             description: Count of Scoring Chances for that team
-          - name: SCA	
+          - name: '"SCA"'	
             description: Count of Scoring Chances against that team
-          - name: SCF%	
+          - name: '"SCF%"'	
             description: Percentage of total Scoring Chances in games that team played that are for that team. SCF*100/(SCF+SCA)
-          - name: HDCF	
+          - name: '"HDCF"'	
             description: Count of High Danger Scoring Chances for that team
-          - name: HDCA	
+          - name: '"HDCA"'	
             description: Count of High Danger Scoring Chances against that team
-          - name: HDCF%	
+          - name: '"HDCF%"'	
             description: Percentage of total High Danger Scoring Chances in games that team played that are for that team. HDCF*100/(HDCF+HDCA)
-          - name: HDSF	
+          - name: '"HDSF"'	
             description: Count of Shots that are High Danger Scoring Chances for that team
-          - name: HDSA	
+          - name: '"HDSA"'	
             description: Count of Shots that are High Danger Scoring Chances against that team
-          - name: HDSF%	 
+          - name: '"HDSF%"'	 
             description: Percentage of total Shots that are High Danger Scoring Chances in games that team played that are for that team. HDSF*100/(HDSF+HDSA)
-          - name: HDGF	
+          - name: '"HDGF"'	
             description: Count of Goals off of High Danger Scoring Chances for that team
-          - name: HDGA	
+          - name: '"HDGA"'	
             description: Count of Goals off of High Danger Scoring Chances against that team
-          - name: HDGF%	
+          - name: '"HDGF%"'	
             description: Percentage of total Goals off of High Danger Scoring Chances in games that team played that are for that team. HDGF*100/(HDGF+HDGA)
-          - name: HDSH%	
+          - name: '"HDSH%"'	
             description: Percentage of High Danger Shots for that team that were Goals. HDGF*100/HDSF
-          - name: HDSV%	
+          - name: '"HDSV%"'	
             description: Percentage of High Danger Shots against that team that were not Goals. 100-(HDGA*100/HDSA)
-          - name: MDCF	
+          - name: '"MDCF"'	
             description: Count of Medium Danger Scoring Chances for that team
-          - name: MDCA	
+          - name: '"MDCA"'	
             description: Count of Medium Danger Scoring Chances against that team
-          - name: MDCF%	
+          - name: '"MDCF%"'	
             description: Percentage of total Medium Danger Scoring Chances in games that team played that are for that team. MDCF*100/(MDCF+MDCA)
-          - name: MDSF	
+          - name: '"MDSF"'	
             description: Count of Shots that are Medium Danger Scoring Chances for that team
-          - name: MDSA	
+          - name: '"MDSA"'	
             description: Count of Shots that are Medium Danger Scoring Chances against that team
-          - name: MDSF%	
+          - name: '"MDSF%"'	
             description: Percentage of total Shots that are Medium Danger Scoring Chances in games that team played that are for that team. MDSF*100/(MDSF+MDSA)
-          - name: MDGF	
+          - name: '"MDGF"'	
             description: Count of Goals off of Medium Danger Scoring Chances for that team
-          - name: MDGA	
+          - name: '"MDGA"'	
             description: Count of Goals off of Medium Danger Scoring Chances against that team
-          - name: MDGF%	
+          - name: '"MDGF%"'	
             description: Percentage of total Goals off of Medium Danger Scoring Chances in games that team played that are for that team. MDGF*100/(MDGF+MDGA)
-          - name: MDSH%	
+          - name: '"MDSH%"'	
             description: Percentage of Medium Danger Shots for that team that were Goals. MDGF*100/MDSF
-          - name: MDSV%	
+          - name: '"MDSV%"'	
             description: Percentage of Medium Danger Shots against that team that were not Goals. 100-(MDGA*100/MDSA)
-          - name: LDCF	
+          - name: '"LDCF"'	
             description: Count of Low Danger Scoring Chances for that team
-          - name: LDCA	
+          - name: '"LDCA"'	
             description: Count of Low Danger Scoring Chances against that team
-          - name: LDCF%	
+          - name: '"LDCF%"'	
             description: Percentage of total Low Danger Scoring Chances in games that team played that are for that team. LDCF*100/(LDCF+LDCA)
-          - name: LDSF	
+          - name: '"LDSF"'	
             description: Count of Shots that are Low Danger Scoring Chances for that team
-          - name: LDSA	
+          - name: '"LDSA"'	
             description: Count of Shots that are Low Danger Scoring Chances against that team
-          - name: LDSF%	
+          - name: '"LDSF%"'	
             description: Percentage of total Shots that are Low Danger Scoring Chances in games that team played that are for that team. LDSF*100/(LDSF+LDSA)
-          - name: LDGF	
+          - name: '"LDGF"'	
             description: Count of Goals off of Low Danger Scoring Chances for that team
-          - name: LDGA	
+          - name: '"LDGA"'	
             description: Count of Goals off of Low Danger Scoring Chances against that team
-          - name: LDGF%	
+          - name: '"LDGF%"'	
             description: Percentage of total Goals off of Low Danger Scoring Chances in games that team played that are for that team. LDGF*100/(LDGF+LDGA)
-          - name: LDSH%	
+          - name: '"LDSH%"'	
             description: Percentage of Low Danger Shots for that team that were Goals. LDGF*100/LDSF
-          - name: LDSV%	
+          - name: '"LDSV%"'	
             description: Percentage of Low Danger Shots against that team that were not Goals. 100-(LDGA*100/LDSA)
-          - name: SH%	
+          - name: '"SH%"'	
             description: Percentage of Shots for that team that were Goals. GF*100/SF
-          - name: SV%	
+          - name: '"SV%"'	
             description: Percentage of Shots against that team that were not Goals. 100-(GA*100/SA)
-          - name: PDO	
+          - name: '"PDO"'	
             description: Shooting percentage plus save percentage. (GF/SF)+(GA/SA)
-          - name: Attendance	
+          - name: '"Attendance"'	
             description: Game attendance
 
       
@@ -169,13 +169,13 @@ sources:
         description: All individual nhl game opponents
         columns:
 
-          - name: Opponent_ID
+          - name: '"Opponent_ID"'
             description: unique id per nhl game opponent
             tests:
               - unique
               - not_null
 
-          - name: Opponent
+          - name: '"Opponent"'
             description: unique nhl game opponent
             tests:
               - unique
@@ -187,13 +187,13 @@ sources:
         description: All individual nhl game teams against opponents
         columns:
 
-          - name: Team_ID
+          - name: '"Team_ID"'
             description: unique id per nhl team
             tests:
               - unique
               - not_null
 
-          - name: Team
+          - name: '"Team"'
             description: unique nhl team
             tests:
               - unique
