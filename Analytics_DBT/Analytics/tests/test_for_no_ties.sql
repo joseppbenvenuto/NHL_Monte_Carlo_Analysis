@@ -1,7 +1,7 @@
 -- Select all tied games for testing
 SELECT 
-    "GF", 
-    "GA", 
-    ("GF" - "GA") AS "Tie_Breaker"
+    "Real_Score",
+    "Opponent_Real_Score",
+    ("Real_Score" - "Opponent_Real_Score") AS "Tie_Breaker"
 FROM {{ ref('raw_game_facts') }}
-WHERE ("GF" - "GA") = 0
+WHERE ("Real_Score" - "Opponent_Real_Score") = 0

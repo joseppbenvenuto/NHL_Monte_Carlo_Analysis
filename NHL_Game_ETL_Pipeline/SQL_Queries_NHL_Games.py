@@ -68,6 +68,8 @@ game_facts_table_create = ("""
         "GF" float NOT NULL,
         "GA" float NOT NULL,
         "GF%" float NOT NULL,
+        "Real_Score" float NOT Null,
+        "Opponent_Real_Score" float NOT Null,
         "xGF" float NOT NULL,
         "xGA" float NOT NULL,
         "xGF%" float NOT NULL,

@@ -32,6 +32,40 @@ def process_full_data(df, cur):
     # Create date column and remove excess columns
     df['Date'] = df['Game'].str[:10]
 
+    # Get real scores
+    ####################################################
+    df1 = df['Game'].str.split(', ', expand = True)
+    df1 = df1.drop_duplicates(keep = 'first')
+    df1[0] = df1[0].str[-1:]
+    df1[1] = df1[1].str[-1:]
+    df1 = df1.stack().reset_index(level = [0,1], drop = True)
+
+    df1 = pd.DataFrame(df1)
+    df1.columns = ['Opponent_Real_Score']
+
+    df = pd.concat([df, df1], axis = 1)
+
+    # Get opponent real scores
+    ####################################################
+    pos1 = 0
+    pos2 = 1
+
+    df1 = df.copy()
+    df1 = df1[['Opponent_Real_Score']]
+
+    try:
+        for i in range(0, df.shape[0]):
+            df1.iloc[pos1,:], df1.iloc[pos2,:] = df[['Opponent_Real_Score']].iloc[pos2,:], df[['Opponent_Real_Score']].iloc[pos1,:]
+            pos1 += 2
+            pos2 += 2
+
+    except:
+        pass
+
+
+    df = df.rename(columns = {'Opponent_Real_Score':'Real_Score'})
+    df = pd.concat([df, df1], axis = 1)
+
     # Create date column and remove excess columns
     df = df.drop(
         ['Game','Unnamed: 2'],
@@ -62,6 +96,8 @@ def process_full_data(df, cur):
             f."GF", 
             f."GA",
             f."GF%", 
+            f."Real_Score",
+            f."Opponent_Real_Score",
             f."xGF",
             f."xGA",
             f."xGF%", 
@@ -129,7 +165,9 @@ def process_full_data(df, cur):
         'SF%', 
         'GF', 
         'GA',
-        'GF%', 
+        'GF%',
+        "Real_Score",
+        "Opponent_Real_Score", 
         'xGF',
         'xGA',
         'xGF%', 
@@ -256,6 +294,16 @@ def process_full_data(df, cur):
     column = df.pop('Opponent_ID')
     # insert column using insert(position, column_name, first_column) function
     df.insert(4, 'Opponent_ID', column)
+
+    # shift column Real_Score to third position
+    column = df.pop('Real_Score')
+    # insert column using insert(position, column_name, first_column) function
+    df.insert(19, 'Real_Score', column)
+
+    # shift column Opponent_Real_Score to third position
+    column = df.pop('Opponent_Real_Score')
+    # insert column using insert(position, column_name, first_column) function
+    df.insert(20, 'Opponent_Real_Score', column)
     
     # Split data frames and remove duplicates
     # Teams
@@ -288,6 +336,8 @@ def process_full_data(df, cur):
         'GF', 
         'GA',
         'GF%', 
+        'Real_Score',
+        'Opponent_Real_Score',
         'xGF',
         'xGA',
         'xGF%', 
