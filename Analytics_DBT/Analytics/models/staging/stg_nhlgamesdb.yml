@@ -5,7 +5,7 @@ models:
     description: Full nhl game data
     columns:
       - name: Game_Facts_ID
-        description: unique id per game fact
+        description: unique id per game fact (primary key for raw_game_facts)
       - name: Date
         description: unique nhl game date
       - name: Team
@@ -40,6 +40,10 @@ models:
         description: Percentage of total Goals in games that team played that are for that team. GF*100/(GF+GA)
       - name: xGF	
         description: Expected Goals for
+      - name: Real_Score	
+        description: Real score with tie breakers
+      - name: Opponent_Real_Score	
+        description: Real opponent score with tie breakers
       - name: xGA	
         description: Expected Goals againts
       - name: xGF%	

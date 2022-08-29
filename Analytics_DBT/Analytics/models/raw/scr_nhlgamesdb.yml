@@ -25,7 +25,7 @@ sources:
         columns:
 
           - name: '"Date_ID"'
-            description: unique id per nhl game date
+            description: unique id per nhl game date (primary key for dates)
             tests:
               - unique
               - not_null
@@ -42,7 +42,7 @@ sources:
         description: All individual nhl game facts
         columns:
           - name: '"Game_Facts_ID"'
-            description: unique id per game fact
+            description: unique id per game fact (primary key for game_facts)
           - name: '"Date_ID"'
             description: unique id per nhl game date
           - name: '"Team_ID"'
@@ -75,6 +75,10 @@ sources:
             description: Count of Goals against that team
           - name: '"GF%"'	
             description: Percentage of total Goals in games that team played that are for that team. GF*100/(GF+GA)
+          - name: Real_Score	
+            description: Real score with tie breakers
+          - name: Opponent_Real_Score	
+            description: Real opponent score with tie breakers
           - name: '"xGF"'	
             description: Expected Goals for
           - name: '"xGA"'	
@@ -170,7 +174,7 @@ sources:
         columns:
 
           - name: '"Opponent_ID"'
-            description: unique id per nhl game opponent
+            description: unique id per nhl game opponent (primary key for opponents)
             tests:
               - unique
               - not_null
@@ -188,7 +192,7 @@ sources:
         columns:
 
           - name: '"Team_ID"'
-            description: unique id per nhl team
+            description: unique id per nhl team (primary key for teams)
             tests:
               - unique
               - not_null

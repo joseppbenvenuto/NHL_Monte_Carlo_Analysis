@@ -15,6 +15,8 @@ SELECT
 	f."SF%", 
 	f."GF", 
 	f."GA",
+	f."Real_Score",
+	f."Opponent_Real_Score",
 	f."GF%", 
 	f."xGF",
 	f."xGA",
