@@ -11,7 +11,7 @@ This application can be used to determine playoff series outcomes through regula
 ## Methods Used
 
 1) Descriptive Statistics - Used for preliminary data exploration.
-2) Monte Carlo Simulationos- Predict series outcomes between teo NHL teams.
+2) Monte Carlo Simulationos - Predict series outcomes between teo NHL teams.
 <br><br>
 
 ## Predictions Dashboard
