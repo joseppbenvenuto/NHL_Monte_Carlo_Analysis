@@ -64,7 +64,7 @@ This application can be used to determine playoff series outcomes through regula
 
     <br>
   
-* **Dashboard -**  Stores all Plotly Dash app files. The Dashboard app allows the user to simulates 100,000 games between any pair of NHL teams to produce the probabilities of each team winning.
+* **Dashboard -**  Stores all Plotly Dash app files. The Dashboard app allows the user to simulate 100,000 games between any pair of NHL teams to produce the probabilities of each team winning.
 
   * **Data/Create_CSV_Monte_Carlo_Data.py -** Stores the python script that pulls data from the nhlgamesdb to CSV file to be used by the dashboard.
   * **Plotly_Dash_Season_Playoff_Dashboard.py -** Plotly Dash Dashboard app script.
