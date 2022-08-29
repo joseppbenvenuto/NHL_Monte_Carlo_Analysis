@@ -1,10 +1,8 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_mantine_components as dmc
 from dash import dcc, html, Input, Output
 import dash_auth
 
-import numpy as np
 import pandas as pd
 import random as rnd
 
@@ -47,7 +45,7 @@ app.layout = html.Div([
     html.Div([
         
         html.H1(
-            'NHL Game Simulations',
+            'NHL 2021-2022 Game Simulations',
              style = {
                  'padding':10,
                  'margin':0,
@@ -183,14 +181,14 @@ app.layout = html.Div([
     
     # Instrcutions
     html.Div(
-        "The dashboard displays the probability of winning between two selected teams. Each \
+        "Through a Monte Carlo simulation of 100,000, the dashboard displays the probability of winning between two selected teams. Each \
         dropdown list, for headings Team1 and Team2, shows a list of all the teams in the NHL and \
         allows the user to select the two teams they want to face off. Once the teams are chosen, the \
         probabilities for each team to win will be generated. The probabilities can be viewed under the \
         dropdown lists and through the bar plot. The bar representing the team with the higher probability \
         of winning will be coloured green, and the bar representing the team with the lower probability of \
         winning will be coloured red. The average score for the matchup can be found under the average score \
-        heading in the top left corner.",
+        heading in the top left corner. This dashboard can be used for determining playoff series outcomes.",
         
         style = {
             'padding-top':60,
