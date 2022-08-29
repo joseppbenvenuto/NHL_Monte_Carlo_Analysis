@@ -62,81 +62,88 @@ app.layout = html.Div([
     # Set average score for simulation
     html.Div([
         
-        html.H2(
-            'Average Score', 
-             style = {
-                 'textAlign':'left',
-                 'font-family':'Arial, Helvetica, sans-serif',
-                 'padding-top':10,
-                 'margin-left': 30
-             }
+        # Header
+        dbc.Row(
+            
+            html.H2(
+                'Average Score', 
+                style = {
+                    'textAlign':'left',
+                    'font-family':'Arial, Helvetica, sans-serif',
+                    'padding-top':10,
+                    'margin-left': 30
+                }
+            )
         ),
         
         # Score 1
-        html.Div(
-            id = 's1', 
-            style = {
-                'textAlign':'left',
-                'font-family':'Arial, Helvetica, sans-serif',
-                'padding-top':10,
-                'margin-left': 30
-            }
+        dbc.Row(
+            
+            html.Div(
+                id = 's1', 
+                style = {
+                    'textAlign':'left',
+                    'font-family':'Arial, Helvetica, sans-serif',
+                    'padding-top':10,
+                    'margin-left': 30
+                }
+            )
         ),
         
         # Score 2
-        html.Div(
-            id = 's2', 
-            style = {
-                'textAlign':'left',
-                'font-family':'Arial, Helvetica, sans-serif',
-                'padding-bottom':5,
-                'margin-left': 30
-            }
+        dbc.Row(
+            
+            html.Div(
+                id = 's2', 
+                style = {
+                    'textAlign':'left',
+                    'font-family':'Arial, Helvetica, sans-serif',
+                    'padding-bottom':5,
+                    'margin-left': 30
+                }
+            )
         )
     ], style = {'padding-top': 10}),
     
     # Dropdowns
     html.Div([
         
-
+        dbc.Row([
             
-            dbc.Row([
+            # Team 1
+            dbc.Col([
                 
-                # Team 1
-                dbc.Col([
-                    
-                    html.H2('Team1'),
-                    
-                    dcc.Dropdown(
-                        id = 'team1',
-                        options = team_options,
-                        value = 'Toronto Maple Leafs'
-                    ),
-                    
-                    html.Div(
-                        id = 'teamOne',
-                        style = {'padding-top':15}
-                    )                
-                ]),
+                html.H2('Team1'),
                 
-                # Team 2
-                dbc.Col([
-                    
-                    html.H2('Team2'),
-                    
-                    dcc.Dropdown(
-                        id = 'team2',
-                        options = team_options,
-                        value ='Dallas Stars'
+                dcc.Dropdown(
+                    id = 'team1',
+                    options = team_options,
+                    value = 'Toronto Maple Leafs'
                     ),
-                    
-                    html.Div(
-                        id = 'teamTwo',
-                        style = {'padding-top':15}
-                    )
-                ])
+                
+                html.Div(
+                    id = 'teamOne',
+                    style = {'padding-top':15}
+                )
+            ]),
+            
+            # Team 2
+            dbc.Col([
+                
+                html.H2('Team2'),
+                
+                dcc.Dropdown(
+                    id = 'team2',
+                    options = team_options,
+                    value ='Dallas Stars'
+                ),
+                
+                html.Div(
+                    id = 'teamTwo',
+                    style = {'padding-top':15}
+                )
             ])
-
+        ])
     ], 
         style = {
             'font-family':'Arial, Helvetica, sans-serif',
@@ -177,12 +184,12 @@ app.layout = html.Div([
     # Instrcutions
     html.Div(
         "The dashboard displays the probability of winning between two selected teams. Each \
-        dropdown list, for headings Team1 and Team2, displays a list of all the teams in the NHL and \
-        allows the user to select the two teams they want to face-off. Once the teams are selected, the \
+        dropdown list, for headings Team1 and Team2, shows a list of all the teams in the NHL and \
+        allows the user to select the two teams they want to face off. Once the teams are chosen, the \
         probabilities for each team to win will be generated. The probabilities can be viewed under the \
         dropdown lists and through the bar plot. The bar representing the team with the higher probability \
-        of winning will be coloured green and the bar representing the team with the lower probability of \
-        winning will be coloured red. The average score for the matchup can found under the average score \
+        of winning will be coloured green, and the bar representing the team with the lower probability of \
+        winning will be coloured red. The average score for the matchup can be found under the average score \
         heading in the top left corner.",
         
         style = {
