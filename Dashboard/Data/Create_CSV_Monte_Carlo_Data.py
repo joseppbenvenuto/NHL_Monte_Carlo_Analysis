@@ -26,7 +26,7 @@ def nhl_monte_carlo_csv():
         # Query monte_carlo_data
         query = '''
             SELECT *
-            FROM analytics.monte_carlo_data;
+            FROM analytics.monte_carlo_data_2021_2022;
         '''
 
         cur.execute(query)
@@ -34,6 +34,7 @@ def nhl_monte_carlo_csv():
 
         monte_carlo_data_columns = [
             'sk_games',
+            'Date',
             'Team',
             'Opponent',
             'Real_Score',

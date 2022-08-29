@@ -1,5 +1,6 @@
 import dash
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 from dash import dcc, html, Input, Output
 import dash_auth
 
@@ -44,13 +45,14 @@ app.layout = html.Div([
     
     # Header
     html.Div([
+        
         html.H1(
             'NHL Game Simulations',
              style = {
                  'padding':10,
                  'margin':0,
                  'font-family':'Arial, Helvetica, sans-serif',
-                 'background':'#1E90FF',
+                 'background':'#00008B',
                  'color':'#FFFFFF',
                  'textAlign':'center'
             }
@@ -59,6 +61,7 @@ app.layout = html.Div([
     
     # Set average score for simulation
     html.Div([
+        
         html.H2(
             'Average Score', 
              style = {
@@ -92,67 +95,79 @@ app.layout = html.Div([
         )
     ], style = {'padding-top': 10}),
     
-    # Team 1
+    # Dropdowns
     html.Div([
-        html.H2('Team1'),
-        dcc.Dropdown(
-            id = 'team1',
-            options = team_options,
-            value = 'Toronto Maple Leafs'
-        ),
         
-        html.Div(
-            id = 'teamOne',
-            style = {'padding-top':15}
-        )
-    ],
+
+            
+            dbc.Row([
+                
+                # Team 1
+                dbc.Col([
+                    
+                    html.H2('Team1'),
+                    
+                    dcc.Dropdown(
+                        id = 'team1',
+                        options = team_options,
+                        value = 'Toronto Maple Leafs'
+                    ),
+                    
+                    html.Div(
+                        id = 'teamOne',
+                        style = {'padding-top':15}
+                    )                
+                ]),
+                
+                # Team 2
+                dbc.Col([
+                    
+                    html.H2('Team2'),
+                    
+                    dcc.Dropdown(
+                        id = 'team2',
+                        options = team_options,
+                        value ='Dallas Stars'
+                    ),
+                    
+                    html.Div(
+                        id = 'teamTwo',
+                        style = {'padding-top':15}
+                    )
+                ])
+            ])
+
+    ], 
         style = {
-            'width':'40%',
-            'display':'inline-block',
-            'textAlign':'center',
             'font-family':'Arial, Helvetica, sans-serif',
-            'padding':5,
-            'padding-left':170
-        }
-    ),
-    
-    # Team 2
-    html.Div([
-        html.H2('Team2'),
-        dcc.Dropdown(
-            id = 'team2',
-            options = team_options,
-            value = 'Dallas Stars'
-        ),
-        
-        html.Div(
-            id = 'teamTwo',
-            style = {'padding-top':15}
-        )
-    ],
-        style = {
-            'width':'40%',
-            'display':'inline-block',
-            'textAlign':'center',
-            'font-family':'Arial, Helvetica, sans-serif',
-            'padding':5,
-            'padding-left':190
+            'padding-top':10,
+            'padding-right':'5%',
+            'padding-left':'5%',
+            'textAlign':'center'
         }
     ),
     
     # Bar chart
     html.Div([
+    
         dcc.Graph(id = 'feature_graphic')
-    ],style = {'font-family':'Arial, Helvetica, sans-serif'}),
+        
+    ],
+        style = {
+            'font-family':'Arial, Helvetica, sans-serif',
+            'padding-bottom': 20
+        }
+    ),
     
     html.Div([
+        
         html.H1(
             'Instructions',
             style = {
                 'padding':10,
                 'margin':0,
                 'font-family':'Arial, Helvetica, sans-serif',
-                'background':'#1E90FF',
+                'background':'#00008B',
                 'color':'#FFFFFF',
                 'textAlign':'center'
             }
@@ -207,7 +222,11 @@ def update_graph(team1, team2):
 
     # Drop columns
     nhl_mc = nhl_mc.drop(
-        ['sk_games', 'Opponent'], 
+        [
+            'sk_games',
+            'Date',
+            'Opponent'
+        ], 
         axis = 1,
         errors = 'ignore'
     )
@@ -244,7 +263,7 @@ def update_graph(team1, team2):
             return (0, team1_score, team2_score)
 
 
-    # Simulate 1,000 games
+    # Simulate 100,000 games
     def games_sim():
         # Outcomes per team
         team1_win = 0
@@ -256,7 +275,7 @@ def update_graph(team1, team2):
         score2 = []
 
         # Simulate games
-        for i in range (1000):
+        for i in range (100000):
             # Sim game
             game_sim = sim()
             game_sim1 = game_sim[0]
@@ -276,13 +295,13 @@ def update_graph(team1, team2):
                 tie += 1
 
         # Get proportion of outcomes
-        team1_p = team1_win / 1000
-        team2_p = team2_win / 1000
-        tie_p = tie / 1000
+        team1_p = team1_win / 100000
+        team2_p = team2_win / 100000
+        tie_p = tie / 100000
 
         # Get average scores
-        score1_p = sum(score1) / 1000
-        score2_p = sum(score2) / 1000
+        score1_p = sum(score1) / 100000
+        score2_p = sum(score2) / 100000
 
         return (team1_p, team2_p, tie_p, score1_p, score2_p)
     
@@ -309,11 +328,14 @@ def update_graph(team1, team2):
     team2_s_string = str(float(game_sims_df.iloc[4,9]))
     
     # conditional formatting per outcome
-    if team1_p >= team2_p:
+    if team1_p > team2_p:
         t1 = '#008000'
         t2 = '#B22222'
-    else:
+    if team1_p < team2_p:
         t1 = '#B22222'
+        t2 = '#008000'
+    if team1_p == team2_p:
+        t1 = '#008000'
         t2 = '#008000'
 
 
@@ -321,15 +343,17 @@ def update_graph(team1, team2):
         go.Bar(
             x = game_sims_df['team1'],
             y = game_sims_df['prob_to_win1'],
-            width = [0.5, 0.5],
             marker = {'color':t1},
+            width = 0.3,
+            showlegend = False,
             name = team1
         ),
         go.Bar(
             x = game_sims_df['team2'],
             y = game_sims_df['prob_to_win2'],
-            width = [0.5, 0.5],
             marker = {'color':t2},
+            width = 0.3,
+            showlegend = False,
             name = team2
         )
     ]
@@ -338,17 +362,21 @@ def update_graph(team1, team2):
     t2p = '{} have a {}% chance to win'.format(team2, team2_p_string)
     t1s = '{}: {}'.format(team1, team1_s_string)
     t2s = '{}: {}'.format(team2, team2_s_string)
-
-    return {
+    
+    data = {
         'data': data,
         'layout':go.Layout(
             yaxis = {
                 'title':'Probabilities',
-                'showgrid': False
+                'showgrid': False,
             },
             font = {'color': '#111111'}
         )
-    }, t1p, t2p, t1s, t2s
+    }
+
+    return data , t1p, t2p, t1s, t2s
 
 if __name__ == '__main__':
     app.run_server()
+
+    
