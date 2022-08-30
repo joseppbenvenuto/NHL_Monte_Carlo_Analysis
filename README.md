@@ -12,6 +12,11 @@ This application can be used to determine playoff series outcomes through regula
 
 1) Descriptive Statistics - Used for preliminary data exploration.
 2) Monte Carlo Simulationos - Predict series outcomes between teo NHL teams.
+  * The simulation method on a per game bais can be defined as follows (team with the highest score wins):
+    * Team1: random selection of points for + random selection of opponents points against / 2
+    * Team2: random selection of points for + random selection of opponents points against / 2
+
+
 <br><br>
 
 ## Predictions Dashboard
