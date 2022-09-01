@@ -28,7 +28,7 @@ server = app.server
 
 nhl = pd.read_csv('Data/Monte_Carlo_Data.csv')
 
-team_list = nhl['Team'].unique()
+team_list = nhl['team'].unique()
 team_list.sort()
 team_options = [{'label': team, 'value': team} for team in team_list]
 
@@ -229,28 +229,28 @@ def update_graph(team1, team2):
     nhl_mc = nhl_mc.drop(
         [
             'sk_games',
-            'Date',
-            'Opponent'
+            'date',
+            'opponent'
         ], 
         axis = 1,
         errors = 'ignore'
     )
 
     # Split the data basis teams
-    data1 = nhl_mc.iloc[(nhl_mc['Team'] == team1).values, [0,1,2]] 
-    data2 = nhl_mc.iloc[(nhl_mc['Team'] == team2).values, [0,1,2]] 
+    data1 = nhl_mc.iloc[(nhl_mc['team'] == team1).values, [0,1,2]] 
+    data2 = nhl_mc.iloc[(nhl_mc['team'] == team2).values, [0,1,2]] 
 
     # Goals for stats
-    team1_mean_pts = data1['Real_Score'].mean()
-    team2_mean_pts = data2['Real_Score'].mean()
-    team1_SD_pts = data1['Real_Score'].std()
-    team2_SD_pts = data2['Real_Score'].std()
+    team1_mean_pts = data1['real_score'].mean()
+    team2_mean_pts = data2['real_score'].mean()
+    team1_SD_pts = data1['real_score'].std()
+    team2_SD_pts = data2['real_score'].std()
 
     # Goals against stats
-    team1_mean_pts_a = data1['Opponent_Real_Score'].mean()
-    team2_mean_pts_a = data2['Opponent_Real_Score'].mean()
-    team1_SD_pts_a = data1['Opponent_Real_Score'].std()
-    team2_SD_pts_a = data2['Opponent_Real_Score'].std()
+    team1_mean_pts_a = data1['opponent_real_score'].mean()
+    team2_mean_pts_a = data2['opponent_real_score'].mean()
+    team1_SD_pts_a = data1['opponent_real_score'].std()
+    team2_SD_pts_a = data2['opponent_real_score'].std()
 
 
     # 1 game simulation

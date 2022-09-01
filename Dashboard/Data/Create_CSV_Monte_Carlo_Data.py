@@ -34,11 +34,11 @@ def nhl_monte_carlo_csv():
 
         monte_carlo_data_columns = [
             'sk_games',
-            'Date',
-            'Team',
-            'Opponent',
-            'Real_Score',
-            'Opponent_Real_Score'
+            'date',
+            'team',
+            'opponent',
+            'real_score',
+            'opponent_real_score'
         ]
 
 
