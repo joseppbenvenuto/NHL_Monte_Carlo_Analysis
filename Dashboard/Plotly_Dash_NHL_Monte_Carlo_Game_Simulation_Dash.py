@@ -1,3 +1,7 @@
+import os
+from threading import Timer
+import webbrowser
+
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output
@@ -381,7 +385,15 @@ def update_graph(team1, team2):
 
     return data , t1p, t2p, t1s, t2s
 
+
+# Run app in browser automatically
+def open_browser():
+    if not os.environ.get("WERKZEUG_RUN_MAIN"):
+        webbrowser.open_new('http://127.0.0.1:8050/')
+
 if __name__ == '__main__':
-    app.run_server()
+    Timer(1, open_browser).start()
+    app.run_server(debug = True, port = 8050)
+    
 
     
