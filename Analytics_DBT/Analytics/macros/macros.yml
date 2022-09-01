@@ -1,0 +1,11 @@
+version: 2
+
+
+########################################################################## 
+# Macros
+##########################################################################
+
+# Tie breakers
+macros:
+ - name: tie_breaker
+   description: Tests the raw_game_facts table for ties between games. There should be no ties between the the real_score and opponent_real_score columns (real_score - opponent_real_score != 0). This Macro exists in the test_for_no_ties test found un tests folder.

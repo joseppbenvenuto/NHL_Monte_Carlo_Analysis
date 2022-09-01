@@ -1,0 +1,46 @@
+version: 2
+
+
+########################################################################## 
+# Tables, descriptions, and tests
+##########################################################################
+
+models:
+  # Dates
+  ##################################################
+  - name: monte_carlo_data_2021_2022
+    description: Slected data for the 2021-2022 Monet Carlo dimulations dashboard app. All data is filtered for any date > '2021-05-19' to the end of the current NHL season '2022-05-01'
+    columns:
+
+      - name: sk_games
+        description: random unqie id
+        tests: 
+          - unique
+          - not_null
+
+      - name: date
+        description: unique nhl game date
+        tests:
+          - not_null
+
+      - name: team
+        description: unique nhl team
+        tests:
+          - not_null
+
+      - name: opponent
+        description: unique nhl game opponent
+        tests:
+          - not_null
+
+      - name: real_score
+        description: Real score with tie breakers
+        tests:
+          - not_null
+      
+      - name: opponent_real_score
+        description: Real opponent score with tie breakers
+        tests:
+          - not_null
+
+

@@ -1,0 +1,365 @@
+version: 2
+
+
+########################################################################## 
+# Tables, descriptions, and tests
+##########################################################################
+
+models:
+  # Dates
+  ##################################################
+  - name: raw_dates
+    description: All individual nhl game dates
+    columns:
+
+      - name: date_id
+        description: unique id per nhl game date (primary key for dates)
+        tests:
+          - unique
+          - not_null
+
+      - name: date
+        description: unique nhl game date
+        tests:
+          - unique
+          - not_null
+
+  # Game Facts
+  ##################################################
+  - name: raw_game_facts
+    description: All individual nhl game facts
+    columns:
+      - name: game_facts_id
+        description: unique id per game fact (primary key for game_facts)
+        tests:
+          - unique
+          - not_null
+
+      - name: date_id
+        description: unique id per nhl game date
+        tests:
+          - not_null
+
+      - name: team_id
+        description: unique id per nhl team
+        tests:
+          - not_null
+
+      - name: opponent_id
+        description: unique id per nhl opponent
+        tests:
+          - not_null
+
+      - name: toi
+        description: Total amount of time played
+        tests:
+          - not_null
+
+      - name: cf
+        description: Count of Corsi for that team
+        tests:
+          - not_null
+
+      - name: ca
+        description: Count of Corsi against that team
+        tests:
+          - not_null
+
+      - name: cf_percentage
+        description: Percentage of total Corsi in games that team played that are for that team. CF*100/(CF+CA)
+        tests:
+          - not_null
+
+      - name: ff
+        description: Count of Fenwick for that team
+      
+      - name: fa	
+        description: Count of Fenwick against that team
+        tests:
+          - not_null
+
+      - name: ff_percentage
+        description: Percentage of total Fenwick in games that team played that are for that team. FF*100/(FF+FA)
+        tests:
+          - not_null
+
+      - name: sf
+        description: Count of Shots for that team
+        tests:
+          - not_null
+
+      - name: sa
+        description: Count of Shots against that team
+        tests:
+          - not_null
+
+      - name: sf_percentage
+        description: Percentage of total Shots in games that team played that are for that team. SF*100/(SF+SA)
+        tests:
+          - not_null
+
+      - name: gf
+        description: Count of Goals for that team
+        tests:
+          - not_null
+
+      - name: ga
+        description: Count of Goals against that team
+      
+      - name: gf_percentage
+        description: Percentage of total Goals in games that team played that are for that team. GF*100/(GF+GA)
+        tests:
+          - not_null
+
+      - name: real_score	
+        description: Real score with tie breakers
+        tests:
+          - not_null
+
+      - name: opponent_real_score	
+        description: Real opponent score with tie breakers
+        tests:
+          - not_null
+
+      - name: xgf
+        description: Expected Goals for
+        tests:
+          - not_null
+
+      - name: xga	
+        description: Expected Goals againts
+        tests:
+          - not_null
+
+      - name: xgf_percentage	
+        description: Expected Goals for percentage
+        tests:
+          - not_null
+
+      - name: scf	
+        description: Count of Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: sca
+        description: Count of Scoring Chances against that team
+      
+      - name: scf_percentage	
+        description: Percentage of total Scoring Chances in games that team played that are for that team. SCF*100/(SCF+SCA)
+        tests:
+          - not_null
+
+      - name: hdcf	
+        description: Count of High Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: hdca	
+        description: Count of High Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: hdcf_percentage	
+        description: Percentage of total High Danger Scoring Chances in games that team played that are for that team. HDCF*100/(HDCF+HDCA)
+      
+      - name: hdsf	
+        description: Count of Shots that are High Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: hdsa	
+        description: Count of Shots that are High Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: hdsf_percentage
+        description: Percentage of total Shots that are High Danger Scoring Chances in games that team played that are for that team. HDSF*100/(HDSF+HDSA)
+        tests:
+          - not_null
+
+      - name: hdgf	
+        description: Count of Goals off of High Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: hdga	
+        description: Count of Goals off of High Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: hdgf_percentage	
+        description: Percentage of total Goals off of High Danger Scoring Chances in games that team played that are for that team. HDGF*100/(HDGF+HDGA)
+        tests:
+          - not_null
+
+      - name: hdsh_percentage	
+        description: Percentage of High Danger Shots for that team that were Goals. HDGF*100/HDSF
+        tests:
+          - not_null
+
+      - name: hdsv_percentage	
+        description: Percentage of High Danger Shots against that team that were not Goals. 100-(HDGA*100/HDSA)
+        tests:
+          - not_null
+
+      - name: mdcf	
+        description: Count of Medium Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: mdca	
+        description: Count of Medium Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: mdcf_percentage	
+        description: Percentage of total Medium Danger Scoring Chances in games that team played that are for that team. MDCF*100/(MDCF+MDCA)
+        tests:
+          - not_null
+
+      - name: mdsf	
+        description: Count of Shots that are Medium Danger Scoring Chances for that team
+      
+      - name: mdsa	
+        description: Count of Shots that are Medium Danger Scoring Chances against that team
+      
+      - name: mdsf_percentage
+        description: Percentage of total Shots that are Medium Danger Scoring Chances in games that team played that are for that team. MDSF*100/(MDSF+MDSA)
+        tests:
+          - not_null
+
+      - name: mdgf	
+        description: Count of Goals off of Medium Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: mdga	
+        description: Count of Goals off of Medium Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: mdgf_percentage	
+        description: Percentage of total Goals off of Medium Danger Scoring Chances in games that team played that are for that team. MDGF*100/(MDGF+MDGA)
+        tests:
+          - not_null
+
+      - name: mdsh_percentage	
+        description: Percentage of Medium Danger Shots for that team that were Goals. MDGF*100/MDSF
+        tests:
+          - not_null
+
+      - name: mdsv_percentage	
+        description: Percentage of Medium Danger Shots against that team that were not Goals. 100-(MDGA*100/MDSA)
+        tests:
+          - not_null
+
+      - name: ldcf	
+        description: Count of Low Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: ldca	
+        description: Count of Low Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: ldcf_percentage	
+        description: Percentage of total Low Danger Scoring Chances in games that team played that are for that team. LDCF*100/(LDCF+LDCA)
+        tests:
+          - not_null
+
+      - name: ldsf	
+        description: Count of Shots that are Low Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: ldsa	
+        description: Count of Shots that are Low Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: ldsf_percentage	
+        description: Percentage of total Shots that are Low Danger Scoring Chances in games that team played that are for that team. LDSF*100/(LDSF+LDSA)
+        tests:
+          - not_null
+
+      - name: ldgf	
+        description: Count of Goals off of Low Danger Scoring Chances for that team
+        tests:
+          - not_null
+
+      - name: ldga	
+        description: Count of Goals off of Low Danger Scoring Chances against that team
+        tests:
+          - not_null
+
+      - name: ldgf_percentage	
+        description: Percentage of total Goals off of Low Danger Scoring Chances in games that team played that are for that team. LDGF*100/(LDGF+LDGA)
+        tests:
+          - not_null
+
+      - name: ldsh_percentage
+        description: Percentage of Low Danger Shots for that team that were Goals. LDGF*100/LDSF
+        tests:
+          - not_null
+
+      - name: ldsv_percentage
+        description: Percentage of Low Danger Shots against that team that were not Goals. 100-(LDGA*100/LDSA)
+        tests:
+          - not_null
+
+      - name: sh_percentage	
+        description: Percentage of Shots for that team that were Goals. GF*100/SF
+        tests:
+          - not_null
+
+      - name: sv_percentage
+        description: Percentage of Shots against that team that were not Goals. 100-(GA*100/SA)
+        tests:
+          - not_null
+
+      - name: pdo
+        description: Shooting percentage plus save percentage. (GF/SF)+(GA/SA)
+        tests:
+          - not_null
+
+      - name: "attendance"
+        description: Game attendance
+        tests:
+          - not_null
+  
+  # Opponents
+  ##################################################       
+  - name: raw_opponents
+    description: All individual nhl game opponents
+    columns:
+
+      - name: opponent_id
+        description: unique id per nhl game opponent (primary key for opponents)
+        tests:
+          - unique
+          - not_null
+
+      - name: opponent
+        description: unique nhl game opponent
+        tests:
+          - unique
+          - not_null
+
+  # Teams
+  ##################################################
+  - name: raw_teams
+    description: All individual nhl game teams against opponents
+    columns:
+
+      - name: team_id
+        description: unique id per nhl team (primary key for teams)
+        tests:
+          - unique
+          - not_null
+
+      - name: team
+        description: unique nhl team
+        tests:
+          - unique
+          - not_null

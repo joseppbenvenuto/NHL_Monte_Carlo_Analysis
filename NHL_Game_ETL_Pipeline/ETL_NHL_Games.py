@@ -73,166 +73,204 @@ def process_full_data(df, cur):
         errors = 'ignore'
     )
 
-    # shift column Date to third position
+    # shift column Date to first position
     column = df.pop('Date')
     # insert column using insert(position, column_name, first_column) function
     df.insert(1, 'Date', column)
+    
+    # Rename columns
+    df = df.rename(columns = {
+        'CF%':'CF_Percentage',
+        'FF%':'FF_Percentage',
+        'SF%':'SF_Percentage',
+        'GF%':'GF_Percentage',
+        'xGF%':'xGF_Percentage',
+        'SCF%':'SCF_Percentage',
+        'HDCF%':'HDCF_Percentage',
+        'HDSF%':'HDSF_Percentage',
+        'HDGF%':'HDGF_Percentage',
+        'HDSH%':'HDSH_Percentage',
+        'HDSV%':'HDSV_Percentage',
+        'MDCF%':'MDCF_Percentage',
+        'MDSF%':'MDSF_Percentage',
+        'MDGF%':'MDGF_Percentage',
+        'MDSH%':'MDSH_Percentage',
+        'MDSV%':'MDSV_Percentage',
+        'LDCF%':'LDCF_Percentage',
+        'LDSF%':'LDSF_Percentage',
+        'LDGF%':'LDGF_Percentage',
+        'LDSH%':'LDSH_Percentage',
+        'LDSV%':'LDSV_Percentage',
+        'SH%':'SH_Percentage',
+        'SV%':'SV_Percentage',
+    })
+    
+    
+    # Set all columns to lower case
+    col_names = []
+    
+    for col in list(df.columns):
+        lower_col = col.lower()
+        col_names.append(lower_col)
+        
+    df.columns = col_names
+    
 
     # Concat old old data with new
     query = '''
         SELECT 
-            t."Team",
-            d."Date", 
-            f."TOI",
-            f."CF", 
-            f."CA",
-            f."CF%", 
-            f."FF", 
-            f."FA",
-            f."FF%", 
-            f."SF", 
-            f."SA", 
-            f."SF%", 
-            f."GF", 
-            f."GA",
-            f."GF%", 
-            f."Real_Score",
-            f."Opponent_Real_Score",
-            f."xGF",
-            f."xGA",
-            f."xGF%", 
-            f."SCF",
-            f."SCA", 
-            f."SCF%",
-            f."HDCF",
-            f."HDCA",
-            f."HDCF%", 
-            f."HDSF",
-            f."HDSA", 
-            f."HDSF%", 
-            f."HDGF", 
-            f."HDGA", 
-            f."HDGF%",
-            f."HDSH%",
-            f."HDSV%",
-            f."MDCF",
-            f."MDCA", 
-            f."MDCF%",
-            f."MDSF", 
-            f."MDSA", 
-            f."MDSF%", 
-            f."MDGF",
-            f."MDGA",
-            f."MDGF%", 
-            f."MDSH%",
-            f."MDSV%", 
-            f."LDCF", 
-            f."LDCA", 
-            f."LDCF%", 
-            f."LDSF",
-            f."LDSA",
-            f."LDSF%",
-            f."LDGF", 
-            f."LDGA",
-            f."LDGF%",
-            f."LDSH%",
-            f."LDSV%",
-            f."SH%",
-            f."SV%", 
-            f."PDO",
-            f."Attendance"
+            t.team,
+            d.date,
+            f.toi,
+            f.cf,
+            f.ca,
+            f.cf_percentage,
+            f.ff,
+            f.fa,
+            f.ff_percentage,
+            f.sf,
+            f.sa,
+            f.sf_percentage,
+            f.gf,
+            f.ga,
+            f.gf_percentage,
+            f.real_score,
+            f.opponent_real_score,
+            f.xgf,
+            f.xga,
+            f.xgf_percentage,
+            f.scf,
+            f.sca,
+            f.scf_percentage,
+            f.hdcf,
+            f.hdca,
+            f.hdcf_percentage,
+            f.hdsf,
+            f.hdsa,
+            f.hdsf_percentage,
+            f.hdgf,
+            f.hdga,
+            f.hdgf_percentage,
+            f.hdsh_percentage,
+            f.hdsv_percentage,
+            f.mdcf,
+            f.mdca,
+            f.mdcf_percentage,
+            f.mdsf,
+            f.mdsa,
+            f.mdsf_percentage,
+            f.mdgf,
+            f.mdga,
+            f.mdgf_percentage,
+            f.mdsh_percentage,
+            f.mdsv_percentage,
+            f.ldcf,
+            f.ldca,
+            f.ldcf_percentage,
+            f.ldsf,
+            f.ldsa,
+            f.ldsf_percentage,
+            f.ldgf,
+            f.ldga,
+            f.ldgf_percentage,
+            f.ldsh_percentage,
+            f.ldsv_percentage,
+            f.sh_percentage,
+            f.sv_percentage,
+            f.pdo,
+            f.attendance
         FROM raw.game_facts AS f LEFT JOIN raw.teams AS t
-        ON f."Team_ID" = t."Team_ID"
+        ON f.team_id = t.team_id
         LEFT JOIN raw.dates AS d
-        ON f."Date_ID" = d."Date_ID";
+        ON f.date_id = d.date_id;
     '''
 
     cur.execute(query)
     df_old = cur.fetchall()
 
     df_old_columns = [
-        'Team',
-        'Date',  
-        'TOI',
-        'CF', 
-        'CA',
-        'CF%', 
-        'FF', 
-        'FA',
-        'FF%', 
-        'SF', 
-        'SA', 
-        'SF%', 
-        'GF', 
-        'GA',
-        'GF%',
-        "Real_Score",
-        "Opponent_Real_Score", 
-        'xGF',
-        'xGA',
-        'xGF%', 
-        'SCF',
-        'SCA', 
-        'SCF%',
-        'HDCF',
-        'HDCA',
-        'HDCF%', 
-        'HDSF',
-        'HDSA', 
-        'HDSF%', 
-        'HDGF', 
-        'HDGA', 
-        'HDGF%',
-        'HDSH%',
-        'HDSV%',
-        'MDCF',
-        'MDCA', 
-        'MDCF%',
-        'MDSF', 
-        'MDSA', 
-        'MDSF%', 
-        'MDGF',
-        'MDGA',
-        'MDGF%', 
-        'MDSH%',
-        'MDSV%', 
-        'LDCF', 
-        'LDCA', 
-        'LDCF%', 
-        'LDSF',
-        'LDSA',
-        'LDSF%',
-        'LDGF', 
-        'LDGA',
-        'LDGF%',
-        'LDSH%',
-        'LDSV%',
-        'SH%',
-        'SV%', 
-        'PDO',
-        'Attendance'
+        'team',
+        'date',
+        'toi',
+        'cf',
+        'ca',
+        'cf_percentage',
+        'ff',
+        'fa',
+        'ff_percentage',
+        'sf',
+        'sa',
+        'sf_percentage',
+        'gf',
+        'ga',
+        'gf_percentage',
+        'real_score',
+        'opponent_real_score',
+        'xgf',
+        'xga',
+        'xgf_percentage',
+        'scf',
+        'sca',
+        'scf_percentage',
+        'hdcf',
+        'hdca',
+        'hdcf_percentage',
+        'hdsf',
+        'hdsa',
+        'hdsf_percentage',
+        'hdgf',
+        'hdga',
+        'hdgf_percentage',
+        'hdsh_percentage',
+        'hdsv_percentage',
+        'mdcf',
+        'mdca',
+        'mdcf_percentage',
+        'mdsf',
+        'mdsa',
+        'mdsf_percentage',
+        'mdgf',
+        'mdga',
+        'mdgf_percentage',
+        'mdsh_percentage',
+        'mdsv_percentage',
+        'ldcf',
+        'ldca',
+        'ldcf_percentage',
+        'ldsf',
+        'ldsa',
+        'ldsf_percentage',
+        'ldgf',
+        'ldga',
+        'ldgf_percentage',
+        'ldsh_percentage',
+        'ldsv_percentage',
+        'sh_percentage',
+        'sv_percentage',
+        'pdo',
+        'attendance'
     ]
 
     # Convert SQL query to pandas data frame
     df_old = pd.DataFrame(df_old, columns = df_old_columns)
-    df_old['ID'] = df_old['Team'] + df_old['Date']
-    df['ID'] = df['Team'] + df['Date']
+    df_old['id'] = df_old['team'] + df_old['date']
+    df['id'] = df['team'] + df['date']
 
     df_old = df_old.astype('object')
     df = df.astype('object')
 
     df = pd.concat([df, df_old], axis = 0)
-    df = df.drop_duplicates(subset = ['ID'], keep = 'first').reset_index(drop = True)
+    df = df.drop_duplicates(subset = ['id'], keep = 'first').reset_index(drop = True)
     
     df = df.drop(
-        'ID',
+        'id',
         axis = 1,
         errors = 'ignore'
     )
 
     # Create ids
-    df['Team_ID'] = df.groupby(['Team']).ngroup()
-    df['Date_ID'] = df.groupby(['Date']).ngroup()
+    df['team_id'] = df.groupby(['team']).ngroup()
+    df['date_id'] = df.groupby(['date']).ngroup()
 
     
     # Get opponent teams
@@ -241,11 +279,11 @@ def process_full_data(df, cur):
     pos2 = 1
 
     df1 = df.copy()
-    df1 = df1[['Team_ID','Team']]
+    df1 = df1[['team_id','team']]
 
     try:
         for i in range(0, df.shape[0]):
-            df1.iloc[pos1,:], df1.iloc[pos2,:] = df[['Team_ID','Team']].iloc[pos2,:], df[['Team_ID','Team']].iloc[pos1,:]
+            df1.iloc[pos1,:], df1.iloc[pos2,:] = df[['team_id','team']].iloc[pos2,:], df[['team_id','team']].iloc[pos1,:]
             pos1 += 2
             pos2 += 2
 
@@ -253,11 +291,11 @@ def process_full_data(df, cur):
         pass
 
     df1 = df1.reset_index(drop = True)
-    df1 = df1[['Team_ID','Team']]
+    df1 = df1[['team_id','team']]
 
     df1 = df1.rename(columns = {
-        'Team': 'Opponent', 
-        'Team_ID': 'Opponent_ID'
+        'team': 'opponent', 
+        'team_id': 'opponent_id'
     })
     
     
@@ -265,122 +303,122 @@ def process_full_data(df, cur):
     ####################################################
     df = pd.concat([df, df1], axis = 1)
 
-    # shift column Date to third position
-    column = df.pop('Date')
+    # shift column Date to first position
+    column = df.pop('date')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(0, 'Date', column)
+    df.insert(0, 'date', column)
 
-    # shift column Team to third position
-    column = df.pop('Team')
+    # shift column Team to second position
+    column = df.pop('team')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(1, 'Team', column)
+    df.insert(1, 'team', column)
 
     # shift column Opponent to third position
-    column = df.pop('Opponent')
+    column = df.pop('opponent')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(2, 'Opponent', column)
+    df.insert(2, 'opponent', column)
 
-    # shift column Date_ID to third position
-    column = df.pop('Date_ID')
+    # shift column Date_ID to first position
+    column = df.pop('date_id')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(0, 'Date_ID', column)
+    df.insert(0, 'date_id', column)
 
     # shift column Team_ID to third position
-    column = df.pop('Team_ID')
+    column = df.pop('team_id')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(2, 'Team_ID', column)
+    df.insert(2, 'team_id', column)
 
-    # shift column Opponent_ID to third position
-    column = df.pop('Opponent_ID')
+    # shift column Opponent_ID to fifth position
+    column = df.pop('opponent_id')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(4, 'Opponent_ID', column)
+    df.insert(4, 'opponent_id', column)
 
-    # shift column Real_Score to third position
-    column = df.pop('Real_Score')
+    # shift column Real_Score to twentieth position
+    column = df.pop('real_score')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(19, 'Real_Score', column)
+    df.insert(19, 'real_score', column)
 
-    # shift column Opponent_Real_Score to third position
-    column = df.pop('Opponent_Real_Score')
+    # shift column Opponent_Real_Score to twenty first position
+    column = df.pop('opponent_real_score')
     # insert column using insert(position, column_name, first_column) function
-    df.insert(20, 'Opponent_Real_Score', column)
+    df.insert(20, 'opponent_real_score', column)
     
     # Split data frames and remove duplicates
     # Teams
-    teams_df = df[['Team_ID','Team']]
+    teams_df = df[['team_id','team']]
     teams_df = teams_df.drop_duplicates(keep = 'first').reset_index(drop = True)
     
     # Opponents
-    opponents_df = df[['Opponent_ID','Opponent']]
+    opponents_df = df[['opponent_id','opponent']]
     opponents_df = opponents_df.drop_duplicates(keep = 'first').reset_index(drop = True)
     
     # Dates
-    dates_df = df[['Date_ID','Date']]
+    dates_df = df[['date_id','date']]
     dates_df = dates_df.drop_duplicates(keep = 'first').reset_index(drop = True)
     
     # Game Facts table
     game_facts_df = df[[
-        'Date_ID', 
-        'Team_ID', 
-        'Opponent_ID', 
-        'TOI',
-        'CF', 
-        'CA',
-        'CF%', 
-        'FF', 
-        'FA',
-        'FF%', 
-        'SF', 
-        'SA', 
-        'SF%', 
-        'GF', 
-        'GA',
-        'GF%', 
-        'Real_Score',
-        'Opponent_Real_Score',
-        'xGF',
-        'xGA',
-        'xGF%', 
-        'SCF',
-        'SCA', 
-        'SCF%',
-        'HDCF',
-        'HDCA',
-        'HDCF%', 
-        'HDSF',
-        'HDSA', 
-        'HDSF%', 
-        'HDGF', 
-        'HDGA', 
-        'HDGF%',
-        'HDSH%',
-        'HDSV%',
-        'MDCF',
-        'MDCA', 
-        'MDCF%',
-        'MDSF', 
-        'MDSA', 
-        'MDSF%', 
-        'MDGF',
-        'MDGA',
-        'MDGF%', 
-        'MDSH%',
-        'MDSV%', 
-        'LDCF', 
-        'LDCA', 
-        'LDCF%', 
-        'LDSF',
-        'LDSA',
-        'LDSF%',
-        'LDGF', 
-        'LDGA',
-        'LDGF%',
-        'LDSH%',
-        'LDSV%',
-        'SH%',
-        'SV%', 
-        'PDO',
-        'Attendance'
+        'date_id',
+        'team_id',
+        'opponent_id',
+        'toi',
+        'cf',
+        'ca',
+        'cf_percentage',
+        'ff',
+        'fa',
+        'ff_percentage',
+        'sf',
+        'sa',
+        'sf_percentage',
+        'gf',
+        'ga',
+        'gf_percentage',
+        'real_score',
+        'opponent_real_score',
+        'xgf',
+        'xga',
+        'xgf_percentage',
+        'scf',
+        'sca',
+        'scf_percentage',
+        'hdcf',
+        'hdca',
+        'hdcf_percentage',
+        'hdsf',
+        'hdsa',
+        'hdsf_percentage',
+        'hdgf',
+        'hdga',
+        'hdgf_percentage',
+        'hdsh_percentage',
+        'hdsv_percentage',
+        'mdcf',
+        'mdca',
+        'mdcf_percentage',
+        'mdsf',
+        'mdsa',
+        'mdsf_percentage',
+        'mdgf',
+        'mdga',
+        'mdgf_percentage',
+        'mdsh_percentage',
+        'mdsv_percentage',
+        'ldcf',
+        'ldca',
+        'ldcf_percentage',
+        'ldsf',
+        'ldsa',
+        'ldsf_percentage',
+        'ldgf',
+        'ldga',
+        'ldgf_percentage',
+        'ldsh_percentage',
+        'ldsv_percentage',
+        'sh_percentage',
+        'sv_percentage',
+        'pdo',
+        'attendance'
     ]] 
     
     return teams_df, opponents_df, dates_df, game_facts_df

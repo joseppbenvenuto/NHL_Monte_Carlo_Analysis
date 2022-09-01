@@ -1,7 +1,7 @@
 -- Select all tied games for testing
 SELECT 
-    "Real_Score",
-    "Opponent_Real_Score",
-    ("Real_Score" - "Opponent_Real_Score") AS "Tie_Breaker"
+    real_score,
+    opponent_real_score,
+     {{ tie_breaker('real_score','opponent_real_score') }} AS tie_breaker
 FROM {{ ref('raw_game_facts') }}
-WHERE ("Real_Score" - "Opponent_Real_Score") = 0
+WHERE {{ tie_breaker('real_score','opponent_real_score') }} = 0
