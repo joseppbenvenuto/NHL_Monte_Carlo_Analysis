@@ -23,7 +23,7 @@ This application can be used to determine playoff series outcomes through regula
 
 <p><strong>App User Name:</strong> data<br> <strong>App Password:</strong> analyst <br><strong>Note -</strong> the dashboard takes a few seconds to load</p>
 
-* Deployed to Heroku here: https://nhl-games-sim.herokuapp.com/<br><br>
+* Deployed to Render here: https://nhl-monte-carlo-dash.onrender.com/<br><br>
 
 ![](ReadMe_Images/Dash.png)<br><br>
 
